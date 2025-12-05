@@ -159,7 +159,7 @@ export const EventMeta = ({
   );
 
   return (
-    <div className={`${classNames?.eventMetaContainer || ""} relative z-10  h-full p-0`} data-testid="event-meta">
+    <div className={`${classNames?.eventMetaContainer || ""} relative z-10 h-full p-0`} data-testid="event-meta">
       {isPending && (
         <m.div {...fadeInUp} initial="visible" layout>
           <EventMetaSkeleton />
@@ -170,10 +170,12 @@ export const EventMeta = ({
 
           {!selectedTimeslot && (
             <Fragment>
-              <Link href={`${WEBAPP_URL}/kvk-vip.png`} target="_blank" className="hidden md:block">
-                <Image src="/kvk-vip.png" alt="Galerie de Kunst van Kunst" width={125} height={43} className="w-auto w-full md:my-0" />
+              <div className="hidden h-full md:flex flex-col items-center">
+              <Link href={`${WEBAPP_URL}/kvk-vip.png`} target="_blank" className="">
+                <Image src="/kvk-vip.png" alt="Galerie de Kunst van Kunst" width={280} height={425} className="w-auto w-full " />
               </Link>
-                <Image src="/kvk-vip.png" alt="Galerie de Kunst van Kunst" width={125} height={43} className="block md:hidden h-[35vh] mx-auto my-4 w-auto" />
+              </div>
+                <Image src="/kvk-vip.png" alt="Galerie de Kunst van Kunst" width={280} height={425} className="block md:hidden h-[35vh] mx-auto my-4 w-auto" />
             </Fragment>
           )}
 

@@ -348,13 +348,16 @@ const BookerComponent = ({
           layout === BookerLayouts.MONTH_VIEW ? "overflow-visible" : "overflow-clip",
           `${customClassNames?.bookerWrapper}`
         )}>
-        <Image
-          src="/kvk-logo.jpg"
-          alt="Galerie de Kunst van Kunst"
-          width={250}
-          height={75}
-          className="mb-8 hidden max-w-full md:block"
-        />
+
+        {layout === BookerLayouts.MONTH_VIEW && (
+          <Image
+            src="/kvk-logo.jpg"
+            alt="Galerie de Kunst van Kunst"
+            width={250}
+            height={75}
+            className="mb-8 hidden max-w-full md:block"
+          />
+        )}
 
         <div
           ref={animationScope}
