@@ -22,6 +22,7 @@ import i18nConfigration from "../../../../../i18n.json";
 import { fadeInUp } from "../config";
 import { FromToTime } from "../utils/dates";
 import { useBookerTime } from "./hooks/useBookerTime";
+import Image from "next/image";
 
 const WebTimezoneSelect = dynamic(
   () => import("@calcom/features/components/timezone-select").then((mod) => mod.TimezoneSelect),
@@ -164,21 +165,24 @@ export const EventMeta = ({
       )}
       {!isPending && !!event && (
         <m.div {...fadeInUp} layout transition={{ ...fadeInUp.transition, delay: 0.3 }}>
-          <EventMembers
+
+          <Image src="/kvk-logo.jpg" alt="Galerie de Kunst van Kunst" width={200} height={50} className="block md:hidden mb-4" />
+
+{/*          <EventMembers
             schedulingType={event.schedulingType}
             users={event.subsetOfUsers}
             profile={event.profile}
             entity={event.entity}
             isPrivateLink={isPrivateLink}
             roundRobinHideOrgAndTeam={roundRobinHideOrgAndTeam}
-          />
+          />*/}
           <EventTitle className={`${classNames?.eventMetaTitle} my-2`}>
             {translatedTitle ?? event?.title}
           </EventTitle>
           {(event.description || translatedDescription) && (
             <EventMetaBlock
               data-testid="event-meta-description"
-              contentClassName="mb-8 wrap-break-word max-w-full max-h-[180px] scroll-bar pr-4 overflow-y-auto">
+              contentClassName="mb-8 wrap-break-word max-w-full  scroll-bar pr-4 overflow-y-auto">
               <div
                 // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{
@@ -215,7 +219,7 @@ export const EventMeta = ({
               </EventMetaBlock>
             )}
             <EventDetails event={event} />
-            <EventMetaBlock
+            {/*<EventMetaBlock
               className="cursor-pointer [&_.current-timezone:before]:focus-within:opacity-100 [&_.current-timezone:before]:hover:opacity-100"
               contentClassName="relative max-w-[90%]"
               icon="globe">
@@ -252,7 +256,7 @@ export const EventMeta = ({
                   />
                 </span>
               )}
-            </EventMetaBlock>
+            </EventMetaBlock>*/}
             {bookerState === "booking" && eventTotalSeats && bookingSeatAttendeesQty ? (
               <EventMetaBlock icon="user" className={`${colorClass}`}>
                 <div className="text-bookinghighlight flex items-start text-sm">

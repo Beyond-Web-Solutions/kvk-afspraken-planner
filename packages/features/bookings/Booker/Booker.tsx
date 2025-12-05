@@ -1,4 +1,5 @@
 import { AnimatePresence, LazyMotion, m } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useMemo, useRef } from "react";
 import StickyBox from "react-sticky-box";
 import { Toaster } from "sonner";
@@ -223,12 +224,12 @@ const BookerComponent = ({
 
   const unavailableTimeSlots = isQuickAvailabilityCheckFeatureEnabled
     ? allSelectedTimeslots.filter((slot) => {
-      return !isTimeSlotAvailable({
-        scheduleData: schedule?.data ?? null,
-        slotToCheckInIso: slot,
-        quickAvailabilityChecks: slots.quickAvailabilityChecks,
-      });
-    })
+        return !isTimeSlotAvailable({
+          scheduleData: schedule?.data ?? null,
+          slotToCheckInIso: slot,
+          quickAvailabilityChecks: slots.quickAvailabilityChecks,
+        });
+      })
     : [];
 
   const slot = getQueryParam("slot");
@@ -347,6 +348,14 @@ const BookerComponent = ({
           layout === BookerLayouts.MONTH_VIEW ? "overflow-visible" : "overflow-clip",
           `${customClassNames?.bookerWrapper}`
         )}>
+        <Image
+          src="/kvk-logo.jpg"
+          alt="Galerie de Kunst van Kunst"
+          width={250}
+          height={75}
+          className="mb-8 hidden max-w-full md:block"
+        />
+
         <div
           ref={animationScope}
           data-testid="booker-container"
@@ -466,7 +475,7 @@ const BookerComponent = ({
               visible={bookerState !== "booking" && layout === BookerLayouts.MONTH_VIEW}
               {...fadeInLeft}
               initial="visible"
-              className="md:border-subtle -ml-px h-full shrink px-5 py-3 md:border-l lg:w-(--booker-main-width)">
+              className="md:border-subtle lg:w-(--booker-main-width) -ml-px h-full shrink px-5 py-3 md:border-l">
               <DatePicker
                 classNames={customClassNames?.datePickerCustomClassNames}
                 event={event}
@@ -500,7 +509,7 @@ const BookerComponent = ({
               className={classNames(
                 "border-subtle rtl:border-default flex h-full w-full flex-col overflow-x-auto px-5 py-3 pb-0 rtl:border-r ltr:md:border-l",
                 layout === BookerLayouts.MONTH_VIEW &&
-                  "h-full overflow-hidden md:w-(--booker-timeslots-width)",
+                  "md:w-(--booker-timeslots-width) h-full overflow-hidden",
                 layout !== BookerLayouts.MONTH_VIEW && "sticky top-0"
               )}
               ref={timeslotsRef}
@@ -529,6 +538,7 @@ const BookerComponent = ({
             </BookerSection>
           </AnimatePresence>
         </div>
+
         <HavingTroubleFindingTime
           visible={bookerState !== "booking" && layout === BookerLayouts.MONTH_VIEW && !isMobile}
           dayCount={dayCount}
@@ -568,7 +578,7 @@ const BookerComponent = ({
           </div>
         )}
 
-        {!hideBranding && (!isPlatform || isPlatformBookerEmbed) && !shouldRenderCaptcha && (
+        {/*        {!hideBranding && (!isPlatform || isPlatformBookerEmbed) && !shouldRenderCaptcha && (
           <m.span
             key="logo"
             className={classNames(
@@ -578,7 +588,7 @@ const BookerComponent = ({
             )}>
             <PoweredBy logoOnly hasValidLicense={hasValidLicense} />
           </m.span>
-        )}
+        )}*/}
       </div>
       <>
         {verifyCode && formEmail ? (

@@ -69,14 +69,12 @@ export function Header({
     return (
       <div className="flex gap-2">
         {isMyLink && !isEmbed ? (
-          <Tooltip content={t("troubleshooter_tooltip")} side="bottom">
-            <Button
-              color="primary"
-              target="_blank"
-              href={`${WEBAPP_URL}/availability/troubleshoot?eventType=${eventSlug}`}>
-              {t("need_help")}
-            </Button>
-          </Tooltip>
+          <Button
+            color="primary"
+            target="_blank"
+            href={`mailto:info@dekunstvankunst.nl`}>
+            {t("need_help")}
+          </Button>
         ) : (
           renderOverlay?.()
         )}

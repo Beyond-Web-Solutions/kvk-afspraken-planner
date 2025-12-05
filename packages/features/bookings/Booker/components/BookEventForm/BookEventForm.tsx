@@ -178,7 +178,7 @@ export const BookEventForm = ({
             />
           </div>
         ) : null}
-
+        {/*
         {!isPlatform && (
           <div className="text-subtle my-3 w-full text-xs">
             <ServerTrans
@@ -204,7 +204,7 @@ export const BookEventForm = ({
           </div>
         )}
 
-        {isPlatformBookerEmbed && (
+     {isPlatformBookerEmbed && (
           <div className="text-subtle my-3 w-full text-xs">
             {t("proceeding_agreement")}{" "}
             <Link
@@ -224,7 +224,7 @@ export const BookEventForm = ({
             </Link>
             .
           </div>
-        )}
+        )}*/}
         <div className="modalsticky mt-auto flex justify-end space-x-2 rtl:space-x-reverse">
           {isInstantMeeting ? (
             <Button type="submit" color="primary" loading={loadingStates.creatingInstantBooking}>
