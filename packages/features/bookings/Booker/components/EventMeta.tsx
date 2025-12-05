@@ -1,6 +1,6 @@
 import { m } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 import { shallow } from "zustand/shallow";
 
 import { Timezone as PlatformTimezoneSelect } from "@calcom/atoms/timezone";
@@ -14,7 +14,6 @@ import { useTimePreferences } from "@calcom/features/bookings/lib";
 import type { BookerEvent } from "@calcom/features/bookings/types";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { markdownToSafeHTMLClient } from "@calcom/lib/markdownToSafeHTMLClient";
-import { CURRENT_TIMEZONE } from "@calcom/lib/timezoneConstants";
 import type { EventTypeTranslation } from "@calcom/prisma/client";
 import { EventTypeAutoTranslatedField } from "@calcom/prisma/enums";
 
@@ -23,6 +22,9 @@ import { fadeInUp } from "../config";
 import { FromToTime } from "../utils/dates";
 import { useBookerTime } from "./hooks/useBookerTime";
 import Image from "next/image";
+import Link from "next/link";
+import { WEBAPP_URL } from "@calcom/lib/constants";
+import cn from "@calcom/ui/classNames";
 
 const WebTimezoneSelect = dynamic(
   () => import("@calcom/features/components/timezone-select").then((mod) => mod.TimezoneSelect),
@@ -157,7 +159,7 @@ export const EventMeta = ({
   );
 
   return (
-    <div className={`${classNames?.eventMetaContainer || ""} relative z-10 p-6`} data-testid="event-meta">
+    <div className={`${classNames?.eventMetaContainer || ""} relative z-10  h-full p-0`} data-testid="event-meta">
       {isPending && (
         <m.div {...fadeInUp} initial="visible" layout>
           <EventMetaSkeleton />
@@ -166,7 +168,14 @@ export const EventMeta = ({
       {!isPending && !!event && (
         <m.div {...fadeInUp} layout transition={{ ...fadeInUp.transition, delay: 0.3 }}>
 
-          <Image src="/kvk-logo.jpg" alt="Galerie de Kunst van Kunst" width={200} height={50} className="block md:hidden mb-4" />
+          {!selectedTimeslot && (
+            <Fragment>
+              <Link href={`${WEBAPP_URL}/kvk-vip.png`} target="_blank" className="hidden md:block">
+                <Image src="/kvk-vip.png" alt="Galerie de Kunst van Kunst" width={125} height={43} className="w-auto w-full md:my-0" />
+              </Link>
+                <Image src="/kvk-vip.png" alt="Galerie de Kunst van Kunst" width={125} height={43} className="block md:hidden h-[35vh] mx-auto my-4 w-auto" />
+            </Fragment>
+          )}
 
 {/*          <EventMembers
             schedulingType={event.schedulingType}
@@ -176,7 +185,7 @@ export const EventMeta = ({
             isPrivateLink={isPrivateLink}
             roundRobinHideOrgAndTeam={roundRobinHideOrgAndTeam}
           />*/}
-          <EventTitle className={`${classNames?.eventMetaTitle} my-2`}>
+          {/*<EventTitle className={`${classNames?.eventMetaTitle} my-2`}>
             {translatedTitle ?? event?.title}
           </EventTitle>
           {(event.description || translatedDescription) && (
@@ -191,7 +200,8 @@ export const EventMeta = ({
               />
             </EventMetaBlock>
           )}
-          <div className="stack-y-4 font-medium rtl:-mr-2">
+          */}
+          <div className={cn('stack-y-4 font-medium  rtl:-mr-2', selectedTimeslot && 'p-4')}>
             {rescheduleUid && bookingData && (
               <EventMetaBlock icon="calendar">
                 {t("former_time")}
@@ -208,18 +218,37 @@ export const EventMeta = ({
               </EventMetaBlock>
             )}
             {selectedTimeslot && (
-              <EventMetaBlock icon="calendar">
-                <FromToTime
-                  date={selectedTimeslot}
-                  duration={selectedDuration || event.length}
-                  timeFormat={timeFormat}
-                  timeZone={timezone}
-                  language={i18n.language}
-                />
-              </EventMetaBlock>
+               <Fragment>
+                 <EventTitle className={`${classNames?.eventMetaTitle} my-2`}>
+                   {translatedTitle ?? event?.title}
+                 </EventTitle>
+                 {(event.description || translatedDescription) && (
+                   <EventMetaBlock
+                     data-testid="event-meta-description"
+                     contentClassName="wrap-break-word max-w-full scroll-bar pr-4 overflow-y-auto">
+                     <div
+                       // eslint-disable-next-line react/no-danger
+                       dangerouslySetInnerHTML={{
+                         __html: markdownToSafeHTMLClient(translatedDescription ?? event.description),
+                       }}
+                     />
+                   </EventMetaBlock>
+                   )}
+                 <hr />
+                 <EventMetaBlock icon="calendar">
+                   <FromToTime
+                     date={selectedTimeslot}
+                     duration={selectedDuration || event.length}
+                     timeFormat={timeFormat}
+                     timeZone={timezone}
+                     language={i18n.language}
+                   />
+                 </EventMetaBlock>
+               </Fragment>
             )}
-            <EventDetails event={event} />
-            {/*<EventMetaBlock
+
+            {/*<EventDetails event={event} />
+            <EventMetaBlock
               className="cursor-pointer [&_.current-timezone:before]:focus-within:opacity-100 [&_.current-timezone:before]:hover:opacity-100"
               contentClassName="relative max-w-[90%]"
               icon="globe">

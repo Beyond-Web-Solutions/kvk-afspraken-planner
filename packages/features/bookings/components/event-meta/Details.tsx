@@ -150,12 +150,13 @@ export const EventDetails = ({ event, blocks = defaultEventDetailsBlocks }: Even
             );*/
 
           case EventDetailBlocks.LOCATION:
+            return null;
             if (!event?.locations?.length || isInstantMeeting) return null;
-            return (
+/*            return (
               <EventMetaBlock key={block}>
                 <AvailableEventLocations locations={event.locations} />
               </EventMetaBlock>
-            );
+            );*/
 
           case EventDetailBlocks.REQUIRES_CONFIRMATION:
             if (!event.requiresConfirmation) return null;
